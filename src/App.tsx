@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { getSupabase } from './lib/supabase';
+import { getSupabase, DEFAULT_GOOGLE_CLIENT_ID } from './lib/supabase';
 import SetupScreen from './components/SetupScreen';
 import BaselineSetupScreen from './components/BaselineSetupScreen';
 import TodayView from './components/TodayView';
@@ -35,7 +35,13 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Always seed the Google Client ID so Drive upload works on any device.
+    if (!localStorage.getItem('googleClientId')) {
+      localStorage.setItem('googleClientId', DEFAULT_GOOGLE_CLIENT_ID);
+    }
+
     const checkSetup = async () => {
+      // getSupabase() now uses baked-in defaults — always returns a client.
       const supabase = getSupabase();
       if (supabase) {
         setIsConfigured(true);

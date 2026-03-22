@@ -17,7 +17,7 @@ export default function ExerciseWeightInput({ exercise, dateString, weekNumber, 
           .from('exercise_baseline')
           .select('starting_weight_kg')
           .eq('exercise_name', exercise.name)
-          .single();
+          .maybeSingle();
 
         let recWeight = null;
         if (baselineData) {
@@ -32,7 +32,7 @@ export default function ExerciseWeightInput({ exercise, dateString, weekNumber, 
           .select('weight_kg')
           .eq('log_date', dateString)
           .eq('exercise_name', exercise.name)
-          .single();
+          .maybeSingle();
 
         if (logData) {
           setActualWeight(logData.weight_kg);

@@ -34,7 +34,7 @@ export default function TodayView() {
         .from('daily_log')
         .select('*')
         .eq('log_date', info.dateString)
-        .single();
+        .maybeSingle();
       
       if (data) {
         setLog(data);
@@ -168,7 +168,7 @@ export default function TodayView() {
             await uploadToGoogleDrive(file, tokenResponse.access_token, fileName);
           },
         });
-        tokenClient.requestAccessToken({ prompt: '' });
+        tokenClient.requestAccessToken({ prompt: 'select_account' });
       } catch (err) {
         console.error(err);
         alert('Failed to initialize Google Drive upload');
